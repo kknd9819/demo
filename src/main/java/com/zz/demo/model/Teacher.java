@@ -1,5 +1,7 @@
 package com.zz.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ public class Teacher implements Serializable {
     private Integer sex;
     @Column(length = 64,nullable = false)
     private String subject;
+    @JsonIgnore
     @ManyToMany(mappedBy = "teachers",targetEntity = Clazz.class)
     private Set<Clazz> clazzs = new HashSet<>();
 
