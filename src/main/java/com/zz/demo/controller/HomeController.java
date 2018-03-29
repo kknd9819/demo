@@ -17,6 +17,7 @@ public class HomeController {
 
     @GetMapping("/")
     public List<Clazz> getClazz(){
+        System.out.println("a");
         return clazzService.findAll();
     }
 }
