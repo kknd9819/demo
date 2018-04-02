@@ -7,12 +7,16 @@ import com.zz.demo.model.enumeration.SexEnum;
 import com.zz.demo.repository.ClazzRepository;
 import com.zz.demo.repository.StudentRepository;
 import com.zz.demo.repository.TeacherRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.security.Key;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -103,6 +107,18 @@ public class DemoApplicationTests {
 
         teacherRepository.saveAndFlush(t2);
         clazzRepository.saveAndFlush(c2);
+    }
+
+    @Test
+    public void testJwt(){
+        Key key = MacProvider.generateKey();
+
+        String compactJws = Jwts.builder()
+                .setSubject("Zheng Zhuo")
+                .signWith(SignatureAlgorithm.HS512, key)
+                .compact();
+        System.out.println(compactJws);
+        assert Jwts.parser().setSigningKey(key).parseClaimsJws(compactJws).getBody().getSubject().equals("Zheng Zhuo");
     }
 
 }
